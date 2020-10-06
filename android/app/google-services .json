@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "831832668262",
+    "firebase_url": "https://ggp-test-6692e.firebaseio.com",
+    "project_id": "ggp-test-6692e",
+    "storage_bucket": "ggp-test-6692e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831832668262:android:9d0bff5543df293088d5a7",
+        "android_client_info": {
+          "package_name": "com.example.ggp_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831832668262-0j2j32m7k75jap7cdtturkm9ubhcp85u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5gpHeobxWdAm_936jBWr7vns3wtGzcSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831832668262-0j2j32m7k75jap7cdtturkm9ubhcp85u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
