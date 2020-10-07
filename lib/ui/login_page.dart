@@ -1,7 +1,7 @@
-import 'dart:ui';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:ggp_test/ui/login_form_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,6 +18,14 @@ class _LoginPageState extends State<LoginPage> {
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<DocumentSnapshot> getData() async {
+    await Firebase.initializeApp();
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .doc("Be3mhKhKBOqumRjqshcQ")
+        .get();
   }
 
   @override
@@ -44,106 +52,10 @@ class _LoginPageState extends State<LoginPage> {
             data: ThemeData(
               primaryColor: Colors.white,
             ),
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Login Authentication',
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    TextFormField(
-                      controller: usernameController,
-                      style: TextStyle(
-                        color: Colors.blue[600],
-                      ),
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: 'Username',
-                        hintStyle: TextStyle(color: Colors.grey[300]),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your username';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      style: TextStyle(
-                        color: Colors.blue[600],
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: 'Password',
-                        hintStyle: TextStyle(color: Colors.grey[300]),
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    ButtonTheme(
-                      buttonColor: Colors.black,
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            print(usernameController.text +
-                                ' ' +
-                                passwordController.text);
-                          }
-                        },
-                        child: Text(
-                          'Login',
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            child: FormLogin(
+                formKey: _formKey,
+                usernameController: usernameController,
+                passwordController: passwordController),
           ),
         ),
       ),
