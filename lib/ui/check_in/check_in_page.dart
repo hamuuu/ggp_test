@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ggp_test/providers/user_info_provider.dart';
+import 'package:ggp_test/ui/check_in/check_in_bottom_section.dart';
+import 'package:ggp_test/ui/check_in/check_in_top_section.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +17,8 @@ class _CheckInPageState extends State<CheckInPage> {
   bool _checkoutButton = false;
   bool _checkinButton = true;
   bool _checkedOut = false;
+  int _second = 0;
+  int _hour = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,39 +28,9 @@ class _CheckInPageState extends State<CheckInPage> {
         width: MediaQuery.of(context).size.width,
         child: ListView(
           children: [
+            CheckInAccountTopSection(),
             Container(
-              height: MediaQuery.of(context).size.height * 0.15,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.black87,
-                    Colors.black54,
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.black,
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 48,
-                backgroundImage: NetworkImage(
-                    'https://www.iconfinder.com/data/icons/eldorado-user/40/user-512.png'),
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              Provider.of<UserInfoProvider>(context).username,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(fontSize: 16),
-              ),
-            ),
-            SizedBox(height: 50),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 100),
+              padding: EdgeInsets.symmetric(horizontal: 120),
               child: RaisedButton(
                 color: _checkinButton ? Colors.blue : Colors.lightBlue[100],
                 onPressed: () => _checkinButton ? _checkIn() : null,
@@ -90,6 +65,49 @@ class _CheckInPageState extends State<CheckInPage> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
+            Text(
+              'Check In Process',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Check In Failed',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              'Anda berada diluar jangkauan',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _hour.toString().padLeft(2, '0'),
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  ' : ',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  _second.toString().padLeft(2, '0'),
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            CheckInPageBottomSection(),
           ],
         ),
       ),
@@ -104,18 +122,29 @@ class _CheckInPageState extends State<CheckInPage> {
     });
   }
 
+  void _checkUserPermission() async {
+    await checkPermission().then((value) async {
+      if (value == LocationPermission.denied) return await requestPermission();
+      return checkPermission();
+    });
+  }
+
   void _checkIn() {
+    _checkUserPermission();
     setState(() {
       _checkinButton = !_checkinButton;
       _checkoutButton = !_checkoutButton;
     });
-    Timer.periodic(Duration(seconds: 1), (timer) {
+
+    Provider.of<UserInfoProvider>(context, listen: false).getLatLngUser();
+
+    Timer.periodic(Duration(seconds: 60), (timer) {
+      if (!_checkedOut)
+        Provider.of<UserInfoProvider>(context, listen: false).getLatLngUser();
       if (_checkedOut) {
         timer.cancel();
         _checkedOut = false;
       }
-
-      print(timer);
     });
   }
 }

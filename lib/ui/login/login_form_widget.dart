@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ggp_test/providers/user_info_provider.dart';
-import 'package:ggp_test/ui/check_in_page.dart';
+import 'package:ggp_test/ui/check_in/check_in_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -141,7 +141,8 @@ class _FormLoginState extends State<FormLogin> {
         if (widget.usernameController.text == value.data()['username'] &&
             widget.passwordController.text == value.data()['password']) {
           Provider.of<UserInfoProvider>(context, listen: false)
-              .addUsername(value.data()['username']);
+              .addUsernameAndPassword(
+                  value.data()['username'], value.data()['password']);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ggp_test/providers/user_info_provider.dart';
-import 'package:ggp_test/ui/login_page.dart';
+import 'package:ggp_test/ui/login/login_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
