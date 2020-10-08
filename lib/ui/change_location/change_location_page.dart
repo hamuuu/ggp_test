@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:ggp_test/providers/user_info_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,16 +62,26 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              'Long : ' + _longitude,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(),
-            ),
-            Text(
-              'Lat : ' + _latitude,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(),
-            ),
+            !context.watch<UserInfoProvider>().isLoadingChangeLatLng
+                ? Column(
+                    children: [
+                      Text(
+                        'Long : ' + _longitude,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(),
+                      ),
+                      Text(
+                        'Lat : ' + _latitude,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ],
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.44),
+                    child: CircularProgressIndicator(),
+                  ),
             SizedBox(height: 20),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 80),

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ggp_test/providers/user_info_provider.dart';
 import 'package:ggp_test/ui/login/login_form_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -30,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<UserInfoProvider>();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

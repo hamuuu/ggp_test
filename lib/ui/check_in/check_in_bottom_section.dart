@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ggp_test/providers/user_info_provider.dart';
 import 'package:ggp_test/ui/change_location/change_location_page.dart';
 import 'package:ggp_test/ui/login/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CheckInPageBottomSection extends StatelessWidget {
-  const CheckInPageBottomSection({
-    Key key,
-  }) : super(key: key);
+  final bool checkinButton;
+
+  const CheckInPageBottomSection({Key key, this.checkinButton})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +18,15 @@ class CheckInPageBottomSection extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 80),
           child: RaisedButton(
-            color: Colors.green[600],
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChangeLocationPage(),
-                ),
-              );
-            },
+            color: checkinButton ? Colors.green[600] : Colors.green[100],
+            onPressed: () => checkinButton
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeLocationPage(),
+                    ),
+                  )
+                : null,
             child: Text(
               'Change Location',
               style: GoogleFonts.poppins(
@@ -41,11 +44,12 @@ class CheckInPageBottomSection extends StatelessWidget {
           child: RaisedButton(
             color: Colors.black,
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ));
+              context.read<UserInfoProvider>().clearProvider();
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return LoginPage();
+                },
+              ));
             },
             child: Text(
               'Logout',
