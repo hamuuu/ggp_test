@@ -146,6 +146,9 @@ class _FormLoginState extends State<FormLogin> {
               builder: (context) => CheckInPage(),
             ),
           );
+        } else {
+          Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text('Username atau password salah')));
         }
       });
     });
