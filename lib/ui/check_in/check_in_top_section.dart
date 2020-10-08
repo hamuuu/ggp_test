@@ -36,7 +36,7 @@ class CheckInAccountTopSection extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          Provider.of<UserInfoProvider>(context).username,
+          context.watch<UserInfoProvider>().username,
           textAlign: TextAlign.center,
           style: GoogleFonts.poppins(
             textStyle: TextStyle(fontSize: 16),

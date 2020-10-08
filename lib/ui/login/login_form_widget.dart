@@ -138,9 +138,8 @@ class _FormLoginState extends State<FormLogin> {
           .then((value) {
         if (widget.usernameController.text == value.data()['username'] &&
             widget.passwordController.text == value.data()['password']) {
-          Provider.of<UserInfoProvider>(context, listen: false)
-              .addUsernameAndPassword(
-                  value.data()['username'], value.data()['password']);
+          context.read<UserInfoProvider>().addUsernameAndPassword(
+              value.data()['username'], value.data()['password']);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(

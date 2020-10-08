@@ -88,7 +88,7 @@ class _CheckInPageState extends State<CheckInPage> {
                     ),
             ),
             SizedBox(height: 10),
-            Provider.of<UserInfoProvider>(context).checkInStatus != null
+            context.watch<UserInfoProvider>().checkInStatus != null
                 ? CheckInStatus()
                 : SizedBox.shrink(),
             SizedBox(height: 20),

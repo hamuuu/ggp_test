@@ -15,21 +15,17 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (Provider.of<UserInfoProvider>(context).position != null &&
-        Provider.of<UserInfoProvider>(context).tempPosition == null) {
+    if (context.watch<UserInfoProvider>().position != null &&
+        context.watch<UserInfoProvider>().tempPosition == null) {
       _longitude =
-          Provider.of<UserInfoProvider>(context).position.longitude.toString();
+          context.watch<UserInfoProvider>().position.longitude.toString();
       _latitude =
-          Provider.of<UserInfoProvider>(context).position.latitude.toString();
-    } else if (Provider.of<UserInfoProvider>(context).tempPosition != null) {
-      _longitude = Provider.of<UserInfoProvider>(context)
-          .tempPosition
-          .longitude
-          .toString();
-      _latitude = Provider.of<UserInfoProvider>(context)
-          .tempPosition
-          .latitude
-          .toString();
+          context.watch<UserInfoProvider>().position.latitude.toString();
+    } else if (context.watch<UserInfoProvider>().tempPosition != null) {
+      _longitude =
+          context.watch<UserInfoProvider>().tempPosition.longitude.toString();
+      _latitude =
+          context.watch<UserInfoProvider>().tempPosition.latitude.toString();
     } else {
       _longitude = "Belum Terdeteksi";
       _latitude = "Belum Terdeteksi";
@@ -88,8 +84,7 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
               child: RaisedButton(
                 color: Colors.blue,
                 onPressed: () {
-                  Provider.of<UserInfoProvider>(context, listen: false)
-                      .getLatLngUser();
+                  context.read<UserInfoProvider>().getLatLngUser();
                 },
                 child: Text(
                   'Change Location',
@@ -147,7 +142,8 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
                 child: RaisedButton(
                   color: Colors.green[700],
                   onPressed: () {
-                    if (Provider.of<UserInfoProvider>(context, listen: false)
+                    if (context
+                        .read<UserInfoProvider>()
                         .checkPassword(passwordController.text)) {
                       Scaffold.of(context).showSnackBar(
                         SnackBar(
@@ -182,8 +178,7 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
               child: RaisedButton(
                 color: Colors.red,
                 onPressed: () {
-                  Provider.of<UserInfoProvider>(context, listen: false)
-                      .cleanTempPosition();
+                  context.read<UserInfoProvider>().cleanTempPosition();
                   Navigator.pop(context);
                 },
                 child: Text(
